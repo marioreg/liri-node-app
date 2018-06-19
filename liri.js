@@ -1,11 +1,11 @@
 var dot = require("dotenv").config();
 var Twitter = require("twitter");
-var Spotify = require("node-spotify-api");
+var Spotify = require('node-spotify-api');
 var request = require("request");
 var omdb = require("omdb");
 var fs = require("fs");
 var keys = require('./keys.js');
-
+var argument="";
 //These are all the instructions the user can enter
 //my-tweets
 //spotify-this-song
@@ -31,6 +31,9 @@ switch (userInstruction) {
         break;
     case "do-what-it-says":
         doWhatItSays();        
+        break;
+    case "doSomething":
+        doSomething();        
         break;
     default:
         break;
@@ -77,24 +80,32 @@ function tweets (){
         }
 
        }
-
-        
-        
       
-        
-        //console.log(response); 
       }
     });
     
 
-    
-    
 
 }
 
-function spotify(){
-    console.log(instructionValue);
-    console.log('Spotify api selected');    
+function spotify(){ 
+    
+    var spotify = new Spotify(keys.spotify);
+
+    spotify.search({ type: 'track', query: instructionValue, limit: 1 }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+       
+        console.log("Artist name: " + data.tracks.items[0].artists[0].name);
+        console.log("Song name: " + data.tracks.items[0].name);
+        console.log("Album name: " + data.tracks.items[0].album.name);
+        console.log("Preview URL: " + data.tracks.items[0].external_urls.spotify);
+        
+      
+      
+      });
+
 }
 
 
@@ -102,9 +113,29 @@ function spotify(){
 
 
 
-function doWhatItSays(){
-    console.log(instructionValue);
-    console.log('Something else selected');
-
+function doSomething(){
    
+   fs.readFile("random.txt", "utf8", function (error, data){
+
+    if (error) {
+        return console.log(error);    
+    }
+
+    var argument = data
+
+    console.log(output);
+    
+    module.exports = argument;
+
+
+   });
+
+
+
+}
+
+
+function doWhatItSays(argument){
+
+
 }
