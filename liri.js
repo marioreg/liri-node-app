@@ -158,9 +158,6 @@ function doWhatItSays (){
         var randomText = data.split(",");
         userInstruction = randomText[0];
         instructionValue = randomText[1];
-
-        console.log(userInstruction);
-        console.log(instructionValue);
         start();
         });
 }
